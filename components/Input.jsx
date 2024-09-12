@@ -23,6 +23,9 @@ export default function Input({shouldFocus}) {
         {isFocused &&
             text.length > 0 &&
             <Text>Character count: {text.length}</Text>}
+        {!isFocused && (
+            <Text>{text.length >= 3 ? "Thank you"
+                : "Please type more than 3 characters"}</Text>)}
       </View>
   );
 }
