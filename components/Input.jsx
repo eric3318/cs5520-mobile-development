@@ -15,7 +15,14 @@ export default function Input({shouldFocus}) {
               setText(inputText);
             }}
             autoFocus={shouldFocus}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => {
+              setIsFocused(false)
+            }}
         />
+        {isFocused &&
+            text.length > 0 &&
+            <Text>Character count: {text.length}</Text>}
       </View>
   );
 }
