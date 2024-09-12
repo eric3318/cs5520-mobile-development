@@ -1,18 +1,21 @@
-import { View, Text } from "react-native";
-import React from "react";
+import {Text, TextInput, View} from "react-native";
+import {useState} from "react"
 
-export default function Input() {
+export default function Input({shouldFocus}) {
   const [text, setText] = useState("");
+  const [isFocused, setIsFocused] = useState(false)
 
   return (
-    <View>
-      <TextInput
-        value={text}
-        onChangeText={(inputText) => {
-          setText(inputText);
-        }}
-      />
-      <Text>{text}</Text>
-    </View>
+      <View>
+        <TextInput
+            style={{height: 40}}
+            placeholder="Input goes here"
+            value={text}
+            onChangeText={(inputText) => {
+              setText(inputText);
+            }}
+            autoFocus={shouldFocus}
+        />
+      </View>
   );
 }
