@@ -2,12 +2,13 @@ import { Text, TextInput, View } from "react-native";
 import { useState } from "react";
 import { Button } from "react-native";
 
-export default function Input({ shouldFocus }) {
+export default function Input({ shouldFocus, inputDataHandler }) {
   const [text, setText] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
   const handleConfirm = () => {
     console.log(text);
+    inputDataHandler(text);
   };
 
   return (
