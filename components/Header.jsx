@@ -1,9 +1,20 @@
 import { View, Text } from "react-native";
+import { StyleSheet } from "react-native";
 
 export default function Header({ appName }) {
   return (
     <View>
-      <Text>Welcome to {appName}</Text>
+      <Text style={styles.textStyle}>Welcome to {appName}</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  textStyle: {
+    color: "purple",
+    fontSize: 25,
+    borderColor: "purple",
+    borderWidth: 2,
+    padding: 5,
+  },
+});
