@@ -12,8 +12,8 @@ export default function App() {
     updateText(text);
   };
 
-  const updateText = (text) => {
-    setText(text);
+  const updateText = (changedText) => {
+    setText(changedText);
   };
 
   return (
