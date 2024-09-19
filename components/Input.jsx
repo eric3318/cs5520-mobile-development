@@ -13,9 +13,9 @@ export default function Input({ shouldFocus, inputDataHandler, isVisible }) {
 
   return (
     <Modal animationType="slide" visible={isVisible}>
-      <View>
+      <View style={styles.container}>
         <TextInput
-          style={{ height: 40 }}
+          style={styles.input}
           placeholder="Input goes here"
           value={text}
           onChangeText={(inputText) => {
@@ -37,7 +37,9 @@ export default function Input({ shouldFocus, inputDataHandler, isVisible }) {
               : "Please type more than 3 characters"}
           </Text>
         )}
-        <Button title="Confirm" onPress={handleConfirm} />
+        <View style={styles.button}>
+          <Button title="Confirm" onPress={handleConfirm} />
+        </View>
       </View>
     </Modal>
   );
@@ -46,8 +48,20 @@ export default function Input({ shouldFocus, inputDataHandler, isVisible }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
+    flexDirection: "column",
     justifyContent: "center",
+    margin: 10,
+  },
+  input: {
+    borderColor: "purple",
+    borderWidth: 1,
+    height: 50,
+  },
+  button: {
+    width: "30%",
+    marginVertical: 5,
+    borderWidth: 1,
+    borderColor: "blue",
+    borderRadius: "10px",
   },
 });
