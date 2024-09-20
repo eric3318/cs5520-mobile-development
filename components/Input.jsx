@@ -56,7 +56,12 @@ export default function Input({
               <Button title="Cancel" onPress={handleCancel} color="white" />
             </View>
             <View style={[styles.button, styles.confirmButton]}>
-              <Button title="Confirm" onPress={handleConfirm} color="white" />
+              <Button
+                title="Confirm"
+                onPress={handleConfirm}
+                color="white"
+                disabled={text.length < 3}
+              />
             </View>
           </View>
         </View>
@@ -97,6 +102,6 @@ const styles = StyleSheet.create({
     backgroundColor: "indigo",
   },
   confirmButton: {
-    backgroundColor: "gray",
+    backgroundColor: "#9ACD32",
   },
 });
