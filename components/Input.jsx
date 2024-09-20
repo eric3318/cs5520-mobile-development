@@ -1,4 +1,12 @@
-import { Button, Modal, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  Modal,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+} from "react-native";
 import { useState } from "react";
 
 export default function Input({
@@ -24,10 +32,18 @@ export default function Input({
     setText("");
   };
 
+  const imageUrl = "https://cdn-icons-png.flaticon.com/512/2617/2617812.png";
+
   return (
     <Modal animationType="slide" visible={isVisible} transparent>
       <View style={styles.outerContainer}>
         <View style={styles.container}>
+          <Image src={imageUrl} alt="network image" style={styles.image} />
+          <Image
+            source={require("../assets/target.png")}
+            alt="local image"
+            style={styles.image}
+          />
           <TextInput
             style={styles.input}
             placeholder="Input goes here"
@@ -72,8 +88,8 @@ export default function Input({
 
 const styles = StyleSheet.create({
   outerContainer: {
-    height: "25%",
-    marginTop: "50%",
+    height: "50%",
+    marginTop: "25%",
     marginHorizontal: 25,
     borderRadius: 20,
     backgroundColor: "#F0F8FF",
@@ -103,5 +119,9 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     backgroundColor: "#9ACD32",
+  },
+  image: {
+    height: 100,
+    width: 100,
   },
 });
