@@ -22,6 +22,10 @@ export default function App() {
     setIsVisible(true);
   };
 
+  const cancelButtonHandler = () => {
+    setIsVisible(false);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -32,6 +36,7 @@ export default function App() {
       <Input
         shouldFocus={true}
         inputDataHandler={handleInputData}
+        onModalClose={cancelButtonHandler}
         isVisible={isVisible}
       />
       <View style={styles.bottomView}>

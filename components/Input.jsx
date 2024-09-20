@@ -1,12 +1,21 @@
 import { Button, Modal, StyleSheet, Text, TextInput, View } from "react-native";
 import { useState } from "react";
 
-export default function Input({ shouldFocus, inputDataHandler, isVisible }) {
+export default function Input({
+  shouldFocus,
+  inputDataHandler,
+  onModalClose,
+  isVisible,
+}) {
   const [text, setText] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
   const handleConfirm = () => {
     inputDataHandler(text);
+  };
+
+  const handleCancel = () => {
+    onModalClose();
   };
 
   return (
@@ -37,7 +46,12 @@ export default function Input({ shouldFocus, inputDataHandler, isVisible }) {
             </Text>
           )}
           <View style={styles.buttonContainer}>
-            <Button title="Confirm" onPress={handleConfirm} />
+            <View style={[styles.button, styles.cancelButton]}>
+              <Button title="Cancel" onPress={handleCancel} color="white" />
+            </View>
+            <View style={[styles.button, styles.confirmButton]}>
+              <Button title="Confirm" onPress={handleConfirm} color="white" />
+            </View>
           </View>
         </View>
       </View>
@@ -67,10 +81,16 @@ const styles = StyleSheet.create({
     color: "blue",
   },
   buttonContainer: {
-    width: "30%",
-    marginVertical: 5,
-    borderWidth: 1,
-    borderColor: "blue",
-    borderRadius: "10px",
+    flexDirection: "row",
+    columnGap: 5,
+  },
+  button: {
+    width: "25px",
+  },
+  cancelButton: {
+    backgroundColor: "indigo",
+  },
+  confirmButton: {
+    backgroundColor: "gray",
   },
 });
