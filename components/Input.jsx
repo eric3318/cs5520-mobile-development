@@ -12,10 +12,16 @@ export default function Input({
 
   const handleConfirm = () => {
     inputDataHandler(text);
+    clearText();
   };
 
   const handleCancel = () => {
     onModalClose();
+    clearText();
+  };
+
+  const clearText = () => {
+    setText("");
   };
 
   return (
