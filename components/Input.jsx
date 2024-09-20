@@ -37,7 +37,7 @@ export default function Input({ shouldFocus, inputDataHandler, isVisible }) {
               : "Please type more than 3 characters"}
           </Text>
         )}
-        <View style={styles.button}>
+        <View style={styles.buttonContainer}>
           <Button title="Confirm" onPress={handleConfirm} />
         </View>
       </View>
@@ -48,16 +48,17 @@ export default function Input({ shouldFocus, inputDataHandler, isVisible }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
+    backgroundColor: "#fcf",
+    alignItems: "center",
     justifyContent: "center",
-    margin: 10,
   },
   input: {
     borderColor: "purple",
-    borderWidth: 1,
-    height: 50,
+    borderWidth: 2,
+    padding: 5,
+    color: "blue",
   },
-  button: {
+  buttonContainer: {
     width: "30%",
     marginVertical: 5,
     borderWidth: 1,
