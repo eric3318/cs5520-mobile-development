@@ -47,19 +47,22 @@ export default function Input({ shouldFocus, inputDataHandler, isVisible }) {
 
 const styles = StyleSheet.create({
   outerContainer: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 10,
+    height: "25%",
+    marginTop: "50%",
+    marginHorizontal: 25,
+    borderRadius: 20,
     backgroundColor: "#F0F8FF",
   },
   container: {
     flex: 1,
+    rowGap: 5,
     alignItems: "center",
     justifyContent: "center",
   },
   input: {
     borderColor: "purple",
     borderWidth: 2,
+    borderRadius: 5,
     padding: 5,
     color: "blue",
   },
