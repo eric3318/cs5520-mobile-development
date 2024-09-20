@@ -68,10 +68,10 @@ export default function Input({
             </Text>
           )}
           <View style={styles.buttonContainer}>
-            <View style={[styles.button, styles.cancelButton]}>
+            <View style={styles.button}>
               <Button title="Cancel" onPress={handleCancel} color="white" />
             </View>
-            <View style={[styles.button, styles.confirmButton]}>
+            <View style={styles.button}>
               <Button
                 title="Confirm"
                 onPress={handleConfirm}
@@ -113,12 +113,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "25px",
-  },
-  cancelButton: {
     backgroundColor: "indigo",
-  },
-  confirmButton: {
-    backgroundColor: "#9ACD32",
   },
   image: {
     height: 100,
