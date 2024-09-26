@@ -11,6 +11,7 @@ import {
 import Header from "./components/Header";
 import Input from "./components/Input";
 import { useState } from "react";
+import GoalItem from "./components/GoalItem";
 
 export default function App() {
   const appName = "First Mobile App";
@@ -56,12 +57,8 @@ export default function App() {
         <FlatList
           data={goals}
           contentContainerStyle={styles.scrollView}
-          renderItem={(data) => (
-            <View style={styles.textContainer}>
-              <Text style={styles.text}>{data.item.text}</Text>
-            </View>
-          )}
-        ></FlatList>
+          renderItem={({ item }) => <GoalItem item={item} />}
+        />
       </View>
     </SafeAreaView>
   );
@@ -71,16 +68,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-  },
-  textContainer: {
-    backgroundColor: "gray",
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  text: {
-    color: "purple",
-    padding: 10,
-    fontSize: 20,
   },
   topView: { flex: 1, alignItems: "center", justifyContent: "space-evenly" },
   bottomView: {
