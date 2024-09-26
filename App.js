@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Header from "./components/Header";
 import Input from "./components/Input";
 import { useState } from "react";
@@ -45,13 +52,13 @@ export default function App() {
         isVisible={isVisible}
       />
       <View style={styles.bottomView}>
-        {goals.map((goal) => (
-          <View style={styles.textContainer}>
-            <Text key={goal.id} style={styles.text}>
-              {goal.text}
-            </Text>
-          </View>
-        ))}
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          {goals.map((goal) => (
+            <View key={goal.id} style={styles.textContainer}>
+              <Text style={styles.text}>{goal.text}</Text>
+            </View>
+          ))}
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -65,18 +72,20 @@ const styles = StyleSheet.create({
   textContainer: {
     backgroundColor: "gray",
     borderRadius: 5,
-    marginTop: 5,
+    marginTop: 20,
   },
   text: {
     color: "purple",
-    padding: 5,
+    padding: 10,
     fontSize: 20,
   },
   topView: { flex: 1, alignItems: "center", justifyContent: "space-evenly" },
   bottomView: {
     flex: 4,
     backgroundColor: "#dcd",
-    alignItems: "center",
     width: "100%",
+  },
+  scrollView: {
+    alignItems: "center",
   },
 });
