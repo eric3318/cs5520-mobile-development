@@ -40,7 +40,9 @@ export default function App() {
         isVisible={isVisible}
       />
       <View style={styles.bottomView}>
-        <Text style={styles.text}>{text}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>{text}</Text>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -51,9 +53,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
+  textContainer: {
+    backgroundColor: "gray",
+    borderRadius: 5,
+    marginTop: 5,
+  },
   text: {
     color: "purple",
     marginVertical: 5,
+    padding: 5,
   },
   topView: { flex: 1, alignItems: "center", justifyContent: "space-evenly" },
   bottomView: {
