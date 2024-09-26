@@ -21,11 +21,15 @@ export default function App() {
 
   const handleInputData = (changedText) => {
     // updateText(changedText);
-    const goal = { text: changedText, id: Math.floor(Math.random() * 100) };
-    setGoals((prev) => {
-      return [goal, ...prev];
-    });
+    let goal = { text: changedText, id: Math.floor(Math.random() * 100) };
+    setGoals((prev) => [goal, ...prev]);
     setIsVisible(false);
+  };
+
+  const handleDelete = (id) => {
+    setGoals((prev) => {
+      prev.filter((item) => item.id !== id);
+    });
   };
 
   /*  const updateText = (changedText) => {
@@ -57,7 +61,9 @@ export default function App() {
         <FlatList
           data={goals}
           contentContainerStyle={styles.scrollView}
-          renderItem={({ item }) => <GoalItem item={item} />}
+          renderItem={({ item }) => (
+            <GoalItem item={item} onDelete={handleDelete} />
+          )}
         />
       </View>
     </SafeAreaView>
