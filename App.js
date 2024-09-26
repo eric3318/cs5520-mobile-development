@@ -8,9 +8,14 @@ export default function App() {
   const appName = "First Mobile App";
   const [text, setText] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [goals, setGoals] = useState([]);
 
   const handleInputData = (changedText) => {
     updateText(changedText);
+    const goal = { text: changedText, id: Math.floor(Math.random() * 100) };
+    setGoals((prev) => {
+      return [goal, ...prev];
+    });
     setIsVisible(false);
   };
 
