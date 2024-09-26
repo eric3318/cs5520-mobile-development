@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import {
   Button,
+  FlatList,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -52,13 +53,15 @@ export default function App() {
         isVisible={isVisible}
       />
       <View style={styles.bottomView}>
-        <ScrollView contentContainerStyle={styles.scrollView}>
-          {goals.map((goal) => (
-            <View key={goal.id} style={styles.textContainer}>
-              <Text style={styles.text}>{goal.text}</Text>
+        <FlatList
+          data={goals}
+          contentContainerStyle={styles.scrollView}
+          renderItem={(data) => (
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>{data.item.text}</Text>
             </View>
-          ))}
-        </ScrollView>
+          )}
+        ></FlatList>
       </View>
     </SafeAreaView>
   );
