@@ -6,12 +6,12 @@ import { useState } from "react";
 
 export default function App() {
   const appName = "First Mobile App";
-  const [text, setText] = useState("");
+  // const [text, setText] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [goals, setGoals] = useState([]);
 
   const handleInputData = (changedText) => {
-    updateText(changedText);
+    // updateText(changedText);
     const goal = { text: changedText, id: Math.floor(Math.random() * 100) };
     setGoals((prev) => {
       return [goal, ...prev];
@@ -19,9 +19,9 @@ export default function App() {
     setIsVisible(false);
   };
 
-  const updateText = (changedText) => {
+  /*  const updateText = (changedText) => {
     setText(changedText);
-  };
+  };*/
 
   const handleButtonClick = () => {
     setIsVisible(true);
@@ -45,9 +45,13 @@ export default function App() {
         isVisible={isVisible}
       />
       <View style={styles.bottomView}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>{text}</Text>
-        </View>
+        {goals.map((goal) => (
+          <View style={styles.textContainer}>
+            <Text key={goal.id} style={styles.text}>
+              {goal.text}
+            </Text>
+          </View>
+        ))}
       </View>
     </SafeAreaView>
   );
@@ -65,8 +69,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "purple",
-    marginVertical: 5,
     padding: 5,
+    fontSize: 20,
   },
   topView: { flex: 1, alignItems: "center", justifyContent: "space-evenly" },
   bottomView: {
