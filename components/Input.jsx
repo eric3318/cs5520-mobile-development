@@ -1,44 +1,85 @@
-import { Modal, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  Modal,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+} from "react-native";
 import { useState } from "react";
-import { Button } from "react-native";
 
-export default function Input({ shouldFocus, inputDataHandler, isVisible }) {
+export default function Input({
+  shouldFocus,
+  inputDataHandler,
+  onModalClose,
+  isVisible,
+}) {
   const [text, setText] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
   const handleConfirm = () => {
-    console.log(text);
     inputDataHandler(text);
+    clearText();
   };
 
+  const handleCancel = () => {
+    onModalClose();
+    clearText();
+  };
+
+  const clearText = () => {
+    setText("");
+  };
+
+  const imageUrl = "https://cdn-icons-png.flaticon.com/512/2617/2617812.png";
+
   return (
-    <Modal animationType="slide" visible={isVisible}>
-      <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          placeholder="Input goes here"
-          value={text}
-          onChangeText={(inputText) => {
-            setText(inputText);
-          }}
-          autoFocus={shouldFocus}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => {
-            setIsFocused(false);
-          }}
-        />
-        {isFocused && text.length > 0 && (
-          <Text>Character count: {text.length}</Text>
-        )}
-        {!isFocused && (
-          <Text>
-            {text.length >= 3
-              ? "Thank you"
-              : "Please type more than 3 characters"}
-          </Text>
-        )}
-        <View style={styles.button}>
-          <Button title="Confirm" onPress={handleConfirm} />
+    <Modal animationType="slide" visible={isVisible} transparent>
+      <View style={styles.outerContainer}>
+        <View style={styles.container}>
+          <Image src={imageUrl} alt="network image" style={styles.image} />
+          <Image
+            source={require("../assets/target.png")}
+            alt="local image"
+            style={styles.image}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Input goes here"
+            value={text}
+            onChangeText={(inputText) => {
+              setText(inputText);
+            }}
+            autoFocus={shouldFocus}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => {
+              setIsFocused(false);
+            }}
+          />
+          {isFocused && text.length > 0 && (
+            <Text>Character count: {text.length}</Text>
+          )}
+          {!isFocused && (
+            <Text>
+              {text.length >= 3
+                ? "Thank you"
+                : "Please type more than 3 characters"}
+            </Text>
+          )}
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <Button title="Cancel" onPress={handleCancel} color="white" />
+            </View>
+            <View style={styles.button}>
+              <Button
+                title="Confirm"
+                onPress={handleConfirm}
+                color="white"
+                disabled={text.length < 3}
+              />
+            </View>
+          </View>
         </View>
       </View>
     </Modal>
@@ -46,22 +87,36 @@ export default function Input({ shouldFocus, inputDataHandler, isVisible }) {
 }
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    height: "50%",
+    marginTop: "25%",
+    marginHorizontal: 25,
+    borderRadius: 20,
+    backgroundColor: "#F0F8FF",
+  },
   container: {
     flex: 1,
-    flexDirection: "column",
+    rowGap: 5,
+    alignItems: "center",
     justifyContent: "center",
-    margin: 10,
   },
   input: {
     borderColor: "purple",
-    borderWidth: 1,
-    height: 50,
+    borderWidth: 2,
+    borderRadius: 5,
+    padding: 5,
+    color: "blue",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    columnGap: 5,
   },
   button: {
-    width: "30%",
-    marginVertical: 5,
-    borderWidth: 1,
-    borderColor: "blue",
-    borderRadius: "10px",
+    width: "25px",
+    backgroundColor: "indigo",
+  },
+  image: {
+    height: 100,
+    width: 100,
   },
 });
