@@ -15,26 +15,26 @@ import GoalItem from "./components/GoalItem";
 
 export default function App() {
   const appName = "First Mobile App";
-  // const [text, setText] = useState("");
+  const [text, setText] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [goals, setGoals] = useState([]);
 
   const handleInputData = (changedText) => {
-    // updateText(changedText);
+    updateText(changedText);
     let goal = { text: changedText, id: Math.floor(Math.random() * 100) };
-    setGoals((prev) => [goal, ...prev]);
+    setGoals((prev) => {
+      return [goal, ...prev];
+    });
     setIsVisible(false);
   };
 
   const handleDelete = (id) => {
-    setGoals((prev) => {
-      prev.filter((item) => item.id !== id);
-    });
+    setGoals((prev) => prev.filter((item) => item.id !== id));
   };
 
-  /*  const updateText = (changedText) => {
+  const updateText = (changedText) => {
     setText(changedText);
-  };*/
+  };
 
   const handleButtonClick = () => {
     setIsVisible(true);
