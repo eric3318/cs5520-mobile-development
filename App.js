@@ -1,17 +1,35 @@
 import { StatusBar } from "expo-status-bar";
-import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Header from "./components/Header";
 import Input from "./components/Input";
 import { useState } from "react";
+import GoalItem from "./components/GoalItem";
 
 export default function App() {
   const appName = "First Mobile App";
   const [text, setText] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [goals, setGoals] = useState([]);
 
   const handleInputData = (changedText) => {
     updateText(changedText);
+    let goal = { text: changedText, id: Math.floor(Math.random() * 100) };
+    setGoals((prev) => {
+      return [goal, ...prev];
+    });
     setIsVisible(false);
+  };
+
+  const handleDelete = (id) => {
+    setGoals((prev) => prev.filter((item) => item.id !== id));
   };
 
   const updateText = (changedText) => {
@@ -40,7 +58,13 @@ export default function App() {
         isVisible={isVisible}
       />
       <View style={styles.bottomView}>
-        <Text style={styles.text}>{text}</Text>
+        <FlatList
+          data={goals}
+          contentContainerStyle={styles.scrollView}
+          renderItem={({ item }) => (
+            <GoalItem item={item} onDelete={handleDelete} />
+          )}
+        />
       </View>
     </SafeAreaView>
   );
@@ -51,15 +75,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  text: {
-    color: "purple",
-    marginVertical: 5,
-  },
   topView: { flex: 1, alignItems: "center", justifyContent: "space-evenly" },
   bottomView: {
     flex: 4,
     backgroundColor: "#dcd",
-    alignItems: "center",
     width: "100%",
+  },
+  scrollView: {
+    alignItems: "center",
   },
 });
