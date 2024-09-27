@@ -47,6 +47,19 @@ export default function App() {
     setIsVisible(false);
   };
 
+  const modalOpenHandler = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const modalCloseHandler = () => {
+    setIsDeleteModalOpen(false);
+  };
+
+  const clearGoals = () => {
+    setGoals([]);
+    modalCloseHandler();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -70,6 +83,11 @@ export default function App() {
               <Text style={styles.listHeaderText}>My goals</Text>
             )
           }
+          ListFooterComponent={
+            goals.length > 0 && (
+              <Button title="Delete All" onPress={modalOpenHandler} />
+            )
+          }
           data={goals}
           contentContainerStyle={styles.scrollView}
           renderItem={({ item }) => (
@@ -77,6 +95,11 @@ export default function App() {
           )}
         />
       </View>
+      <GoalDeleteModal
+        isOpen={isDeleteModalOpen}
+        onConfirm={() => clearGoals()}
+        onCancel={modalCloseHandler}
+      />
     </SafeAreaView>
   );
 }
