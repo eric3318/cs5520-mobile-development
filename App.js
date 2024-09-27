@@ -65,6 +65,11 @@ export default function App() {
           ListEmptyComponent={
             <Text style={styles.emptyListText}>No goals to show</Text>
           }
+          ListHeaderComponent={
+            goals.length > 0 && (
+              <Text style={styles.listHeaderText}>My goals</Text>
+            )
+          }
           data={goals}
           contentContainerStyle={styles.scrollView}
           renderItem={({ item }) => (
