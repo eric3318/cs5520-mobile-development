@@ -9,22 +9,17 @@ import {
 } from "react-native";
 import { useState } from "react";
 
-export default function Input({
-  shouldFocus,
-  inputDataHandler,
-  onModalClose,
-  isVisible,
-}) {
+export default function Input({ shouldFocus, onConfirm, onCancel, isVisible }) {
   const [text, setText] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
   const handleConfirm = () => {
-    inputDataHandler(text);
+    onConfirm(text);
     clearText();
   };
 
   const handleCancel = () => {
-    onModalClose();
+    onCancel();
     clearText();
   };
 

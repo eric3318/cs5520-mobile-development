@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import {
   Button,
   FlatList,
+  Modal,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -12,12 +13,14 @@ import Header from "./components/Header";
 import Input from "./components/Input";
 import { useState } from "react";
 import GoalItem from "./components/GoalItem";
+import GoalDeleteModal from "./components/GoalDeleteModal";
 
 export default function App() {
   const appName = "First Mobile App";
   const [text, setText] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [goals, setGoals] = useState([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleInputData = (changedText) => {
     updateText(changedText);
@@ -36,7 +39,7 @@ export default function App() {
     setText(changedText);
   };
 
-  const handleButtonClick = () => {
+  const confirmButtonHandler = () => {
     setIsVisible(true);
   };
 
@@ -49,16 +52,19 @@ export default function App() {
       <StatusBar style="auto" />
       <View style={styles.topView}>
         <Header appName={appName} />
-        <Button title="Add a goal" onPress={handleButtonClick}></Button>
+        <Button title="Add a goal" onPress={confirmButtonHandler}></Button>
       </View>
       <Input
         shouldFocus={true}
-        inputDataHandler={handleInputData}
-        onModalClose={cancelButtonHandler}
+        onConfirm={handleInputData}
+        onCancel={cancelButtonHandler}
         isVisible={isVisible}
       />
       <View style={styles.bottomView}>
         <FlatList
+          ListEmptyComponent={
+            <Text style={styles.emptyListText}>No goals to show</Text>
+          }
           data={goals}
           contentContainerStyle={styles.scrollView}
           renderItem={({ item }) => (
@@ -83,5 +89,14 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
+  },
+  emptyListText: {
+    fontSize: 20,
+    fontWeight: 500,
+  },
+  listHeaderText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "black",
   },
 });
