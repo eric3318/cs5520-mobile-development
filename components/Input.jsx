@@ -1,11 +1,11 @@
 import {
   Button,
+  Image,
   Modal,
   StyleSheet,
   Text,
   TextInput,
   View,
-  Image,
 } from "react-native";
 import { useState } from "react";
 

@@ -1,5 +1,4 @@
-import { Button, Text, View } from "react-native";
-import { StyleSheet } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function GoalItem({ item, onDelete }) {
   return (

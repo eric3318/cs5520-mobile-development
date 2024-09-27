@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
+  Alert,
   Button,
   FlatList,
   SafeAreaView,
@@ -11,14 +12,12 @@ import Header from "./components/Header";
 import Input from "./components/Input";
 import { useState } from "react";
 import GoalItem from "./components/GoalItem";
-import GoalDeleteModal from "./components/GoalDeleteModal";
 
 export default function App() {
   const appName = "First Mobile App";
   const [text, setText] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [goals, setGoals] = useState([]);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleInputData = (changedText) => {
     updateText(changedText);
@@ -45,17 +44,20 @@ export default function App() {
     setIsVisible(false);
   };
 
-  const modalOpenHandler = () => {
-    setIsDeleteModalOpen(true);
-  };
-
-  const modalCloseHandler = () => {
-    setIsDeleteModalOpen(false);
+  const showAlert = () => {
+    Alert.alert("Deleting goals..,", "Do you wish to continue?", [
+      {
+        text: "yes",
+        onPress: clearGoals,
+      },
+      {
+        text: "no",
+      },
+    ]);
   };
 
   const clearGoals = () => {
     setGoals([]);
-    modalCloseHandler();
   };
 
   return (
@@ -83,7 +85,7 @@ export default function App() {
           }
           ListFooterComponent={
             goals.length > 0 && (
-              <Button title="Delete All" onPress={modalOpenHandler} />
+              <Button title="Delete All" onPress={showAlert} />
             )
           }
           ItemSeparatorComponent={<View style={styles.separator} />}
@@ -94,11 +96,6 @@ export default function App() {
           )}
         />
       </View>
-      <GoalDeleteModal
-        isOpen={isDeleteModalOpen}
-        onConfirm={() => clearGoals()}
-        onCancel={modalCloseHandler}
-      />
     </SafeAreaView>
   );
 }
