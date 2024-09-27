@@ -2,9 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import {
   Button,
   FlatList,
-  Modal,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -88,6 +86,7 @@ export default function App() {
               <Button title="Delete All" onPress={modalOpenHandler} />
             )
           }
+          ItemSeparatorComponent={<View style={styles.separator} />}
           data={goals}
           contentContainerStyle={styles.scrollView}
           renderItem={({ item }) => (
@@ -126,5 +125,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "black",
+  },
+  separator: {
+    height: 1,
+    borderWidth: 2,
+    marginTop: 10,
+    borderColor: "gray",
   },
 });

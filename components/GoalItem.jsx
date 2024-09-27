@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "gray",
     borderRadius: 5,
-    marginTop: 20,
+    marginTop: 10,
   },
   text: {
     color: "purple",
