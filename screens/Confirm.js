@@ -1,16 +1,18 @@
 import { Button, Modal, StyleSheet, View, Text } from 'react-native';
 
-export default function Confirm({ isVisible, registerInfo }) {
+export default function Confirm({ isVisible, registerInfo, onBack }) {
   return (
     <Modal visible={isVisible}>
       <View style={styles.outerContainer}>
         <View style={styles.container}>
-          <Text>Hello {registerInfo.name}</Text>
-          <Text>Here is the information you entered:</Text>
-          <Text>{registerInfo.email}</Text>
-          <Text>{registerInfo.number}</Text>
+          <Text style={styles.text}>Hello {registerInfo.name}</Text>
+          <Text style={styles.text}>Here is the information you entered:</Text>
+          <Text style={styles.text}>{registerInfo.email}</Text>
+          <Text style={styles.text}>{registerInfo.number}</Text>
           <View style={styles.buttonContainer}>
-            <Button title="Go back" />
+            <View>
+              <Button title="Go back" color="red" onPress={onBack} />
+            </View>
             <Button title="Continue" />
           </View>
         </View>
@@ -26,11 +28,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    padding: 36,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
     borderWidth: 1,
+    rowGap: 6,
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+  },
+  text: {
+    fontSize: 18,
   },
 });

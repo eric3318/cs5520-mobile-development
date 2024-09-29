@@ -5,22 +5,27 @@ import { useState } from 'react';
 import Confirm from './screens/Confirm';
 
 export default function App() {
-  const [registerSuccess, setRegisterSuccess] = useState(false);
+  const [isConfirmPageVisible, setIsConfirmPageVisible] = useState(false);
   const [registerInfo, setRegisterInfo] = useState({});
 
   const registerSuccessHandler = (info) => {
-    setRegisterSuccess(true);
+    setIsConfirmPageVisible(true);
     setRegisterInfo(info);
+  };
+
+  const goBackHandler = () => {
+    setIsConfirmPageVisible(false);
   };
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {registerSuccess ? (
-        <Confirm isVisible={true} registerInfo={registerInfo} />
-      ) : (
-        <Start onRegisterSuccess={registerSuccessHandler} />
-      )}
+      <Start onRegisterSuccess={registerSuccessHandler} />
+      <Confirm
+        isVisible={isConfirmPageVisible}
+        registerInfo={registerInfo}
+        onBack={goBackHandler}
+      />
     </View>
   );
 }
