@@ -13,6 +13,35 @@ export default function Start() {
     setFocused(null);
   };
 
+  const validate = (changedText) => {
+    if (!changedText) {
+      setErrorMsg('');
+      return;
+    }
+    switch (focused) {
+      case 'name':
+        if (changedText.length <= 1 || !isNaN(parseFloat(changedText))) {
+          setErrorMsg('Please enter a valid name');
+        } else {
+          setErrorMsg('');
+        }
+        break;
+      case 'email':
+        break;
+      case 'number':
+        if (
+          changedText.length !== 10 ||
+          isNaN(parseFloat(changedText)) ||
+          ['0', '1'].includes(changedText.charAt(9))
+        ) {
+          setErrorMsg('Please enter a valid phone number');
+        } else {
+          setErrorMsg('');
+        }
+        break;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text>Name</Text>
@@ -23,6 +52,7 @@ export default function Start() {
         value={name}
         onChangeText={(changedText) => {
           setName(changedText);
+          validate(changedText);
         }}
       />
       {focused === 'name' && errorMsg && <Text>{errorMsg}</Text>}
@@ -34,6 +64,7 @@ export default function Start() {
         value={email}
         onChangeText={(changedText) => {
           setEmail(changedText);
+          validate(changedText);
         }}
       />
       {focused === 'email' && errorMsg && <Text>{errorMsg}</Text>}
@@ -45,6 +76,7 @@ export default function Start() {
         value={number}
         onChangeText={(changedText) => {
           setNumber(changedText);
+          validate(changedText);
         }}
       />
       {focused === 'number' && errorMsg && <Text>{errorMsg}</Text>}
