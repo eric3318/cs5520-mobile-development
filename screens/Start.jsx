@@ -26,13 +26,17 @@ export default function Start({ onRegisterSuccess }) {
     if (errorMsg || !name || !email || !number) {
       Alert.alert('Register failed...', 'Information provided is invalid', [
         {
-          text: 'Back',
+          text: 'Ok',
           style: 'cancel',
         },
       ]);
       return;
     }
-    onRegisterSuccess();
+    onRegisterSuccess({
+      name: name,
+      email: email,
+      number: number,
+    });
   };
 
   const validate = (changedText) => {

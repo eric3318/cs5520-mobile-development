@@ -6,16 +6,18 @@ import Confirm from './screens/Confirm';
 
 export default function App() {
   const [registerSuccess, setRegisterSuccess] = useState(false);
+  const [registerInfo, setRegisterInfo] = useState({});
 
-  const registerSuccessHandler = () => {
+  const registerSuccessHandler = (info) => {
     setRegisterSuccess(true);
+    setRegisterInfo(info);
   };
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       {registerSuccess ? (
-        <Confirm />
+        <Confirm isVisible={true} registerInfo={registerInfo} />
       ) : (
         <Start onRegisterSuccess={registerSuccessHandler} />
       )}
