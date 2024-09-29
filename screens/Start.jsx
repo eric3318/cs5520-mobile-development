@@ -1,8 +1,8 @@
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Checkbox } from 'expo-checkbox';
 
-export default function Start() {
+export default function Start({ onRegisterSuccess }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [number, setNumber] = useState('');
@@ -19,6 +19,20 @@ export default function Start() {
     setEmail('');
     setNumber('');
     setErrorMsg('');
+    setChecked(false);
+  };
+
+  const handleRegister = () => {
+    if (errorMsg || !name || !email || !number) {
+      Alert.alert('Register failed...', 'Information provided is invalid', [
+        {
+          text: 'Back',
+          style: 'cancel',
+        },
+      ]);
+      return;
+    }
+    onRegisterSuccess();
   };
 
   const validate = (changedText) => {
@@ -94,7 +108,7 @@ export default function Start() {
       </View>
       <View style={styles.buttonContainer}>
         <Button title="Reset" color="red" onPress={handleReset} />
-        <Button title="Register" />
+        <Button title="Register" disabled={!checked} onPress={handleRegister} />
       </View>
     </View>
   );
