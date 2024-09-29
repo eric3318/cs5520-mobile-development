@@ -1,16 +1,24 @@
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState, useEffect } from 'react';
+import { Checkbox } from 'expo-checkbox';
 
 export default function Start() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [number, setNumber] = useState('');
+  const [checked, setChecked] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [focused, setFocused] = useState(null);
-  const numbers = Array.from(Array(10).keys());
 
   const handleBlur = () => {
     setFocused(null);
+  };
+
+  const handleReset = () => {
+    setName('');
+    setEmail('');
+    setNumber('');
+    setErrorMsg('');
   };
 
   const validate = (changedText) => {
@@ -80,6 +88,14 @@ export default function Start() {
         }}
       />
       {focused === 'number' && errorMsg && <Text>{errorMsg}</Text>}
+      <View style={styles.checkboxContainer}>
+        <Checkbox value={checked} onValueChange={setChecked} />
+        <Text>Custom colored checkbox</Text>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Reset" color="red" onPress={handleReset} />
+        <Button title="Register" />
+      </View>
     </View>
   );
 }
@@ -94,6 +110,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     columnGap: 10,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: 5,
   },
   textInput: {
     borderWidth: 1,
