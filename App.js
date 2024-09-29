@@ -3,10 +3,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import Start from './screens/Start';
 import { useState } from 'react';
 import Confirm from './screens/Confirm';
+import Game from './screens/Game';
 
 export default function App() {
   const [isConfirmPageVisible, setIsConfirmPageVisible] = useState(false);
   const [registerInfo, setRegisterInfo] = useState({});
+  const [isGamePageVisible, setIsGamePageVisible] = useState(false);
 
   const registerSuccessHandler = (info) => {
     setIsConfirmPageVisible(true);
@@ -17,15 +19,27 @@ export default function App() {
     setIsConfirmPageVisible(false);
   };
 
+  const confirmHandler = () => {
+    setIsConfirmPageVisible(false);
+    setIsGamePageVisible(true);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Start onRegisterSuccess={registerSuccessHandler} />
-      <Confirm
-        isVisible={isConfirmPageVisible}
-        registerInfo={registerInfo}
-        onBack={goBackHandler}
-      />
+      {isGamePageVisible ? (
+        <Game lastDigit={registerInfo.number.charAt(-1)} />
+      ) : (
+        <>
+          <Start onRegisterSuccess={registerSuccessHandler} />
+          <Confirm
+            isVisible={isConfirmPageVisible}
+            registerInfo={registerInfo}
+            onBack={goBackHandler}
+            onConfirm={confirmHandler}
+          />
+        </>
+      )}
     </View>
   );
 }

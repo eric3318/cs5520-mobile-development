@@ -1,6 +1,11 @@
 import { Button, Modal, StyleSheet, View, Text } from 'react-native';
 
-export default function Confirm({ isVisible, registerInfo, onBack }) {
+export default function Confirm({
+  isVisible,
+  registerInfo,
+  onBack,
+  onConfirm,
+}) {
   return (
     <Modal visible={isVisible}>
       <View style={styles.outerContainer}>
@@ -13,7 +18,7 @@ export default function Confirm({ isVisible, registerInfo, onBack }) {
             <View>
               <Button title="Go back" color="red" onPress={onBack} />
             </View>
-            <Button title="Continue" />
+            <Button title="Continue" onPress={onConfirm} />
           </View>
         </View>
       </View>
