@@ -58,41 +58,73 @@ export default function Game({ lastDigit, onRestart }) {
         <View style={styles.restartButton}>
           <Button title="RESTART" color="white" onPress={onRestart} />
         </View>
-        <View style={styles.gameContainer}>
-          <Text style={styles.text}>Guess a number between 1 & 100</Text>
-          <Text style={styles.text}>that is a multiply of {lastDigit}</Text>
-          <Text style={styles.text}>in 60 seconds and 4 attempts</Text>
-          {!started ? (
-            <View style={styles.startButton}>
-              <Button title="START" color="white" onPress={start} />
-            </View>
-          ) : (
-            <>
-              <TextInput
-                style={styles.input}
-                value={input}
-                onChangeText={setInput}
-              />
-              <Text style={styles.text}>Attempts left: {4 - guessCount}</Text>
-              <Text style={styles.text}>Timer: {countDown}s</Text>
-              <View style={styles.startButton}>
-                <Button
-                  title="Use a hint"
-                  color="white"
-                  onPress={showHint}
-                  disabled={hintUsed}
+        {lastGuess ? (
+          <View style={styles.card}>
+            {parseInt(lastGuess) === target ? (
+              <>
+                <Text style={styles.text}>You guessed correct!</Text>
+                <Text style={styles.text}>Attempts used: {guessCount}</Text>
+                <img
+                  src={`https://picsum.photos/id/${parseInt(lastGuess)}/100/100`}
+                  alt="winning image"
                 />
-              </View>
+                <View style={styles.startButton}>
+                  <Button title="NEW GAME" color="white" />
+                </View>
+              </>
+            ) : (
+              <>
+                <Text style={styles.text}>You did not guess correct!</Text>
+                <Text style={styles.text}>
+                  You should guess{' '}
+                  {parseInt(lastGuess) > target ? 'lower' : 'higher'}.
+                </Text>
+                <View style={styles.startButton}>
+                  <Button title="TRY AGAIN" color="white" />
+                </View>
+                <View style={styles.startButton}>
+                  <Button title="END GAME" color="white" />
+                </View>
+              </>
+            )}
+          </View>
+        ) : (
+          <View style={styles.card}>
+            <Text style={styles.text}>Guess a number between 1 & 100</Text>
+            <Text style={styles.text}>that is a multiply of {lastDigit}</Text>
+            <Text style={styles.text}>in 60 seconds and 4 attempts</Text>
+            {!started ? (
               <View style={styles.startButton}>
-                <Button
-                  title="Submit a guess"
-                  color="white"
-                  onPress={validateSubmission}
-                />
+                <Button title="START" color="white" onPress={start} />
               </View>
-            </>
-          )}
-        </View>
+            ) : (
+              <>
+                <TextInput
+                  style={styles.input}
+                  value={input}
+                  onChangeText={setInput}
+                />
+                <Text style={styles.text}>Attempts left: {4 - guessCount}</Text>
+                <Text style={styles.text}>Timer: {countDown}s</Text>
+                <View style={styles.startButton}>
+                  <Button
+                    title="Use a hint"
+                    color="white"
+                    onPress={showHint}
+                    disabled={hintUsed}
+                  />
+                </View>
+                <View style={styles.startButton}>
+                  <Button
+                    title="Submit a guess"
+                    color="white"
+                    onPress={validateSubmission}
+                  />
+                </View>
+              </>
+            )}
+          </View>
+        )}
       </View>
     </View>
   );
@@ -116,10 +148,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: 'blue',
   },
-  gameContainer: {
+  card: {
     alignItems: 'center',
     rowGap: 5,
-    padding: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 36,
     borderRadius: 10,
     backgroundColor: 'gray',
   },
