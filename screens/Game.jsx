@@ -1,5 +1,26 @@
-import { View, Text, StyleSheet, Button, Alert, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  Alert,
+  TextInput,
+  Image,
+} from 'react-native';
 import { useState, useMemo } from 'react';
+
+const generateTarget = (num) => {
+  const targets = [];
+  let base = parseInt(num);
+  let i = 1;
+  let curr = base;
+  while (curr <= 100) {
+    targets.push(curr);
+    i++;
+    curr = base * i;
+  }
+  return targets[Math.floor(Math.random() * targets.length)];
+};
 
 export default function Game({ lastDigit, onRestart }) {
   const [started, setStarted] = useState(false);
@@ -8,22 +29,8 @@ export default function Game({ lastDigit, onRestart }) {
   const [lastGuess, setLastGuess] = useState('');
   const [hintUsed, setHintUsed] = useState(false);
   const [input, setInput] = useState('');
-
-  const generateTarget = () => {
-    const targets = [];
-    let base = parseInt(lastDigit);
-    let i = 1;
-    let curr = base;
-    while (curr <= 100) {
-      targets.push(curr);
-      i++;
-      curr = base * i;
-    }
-    return targets[Math.floor(Math.random() * targets.length)];
-  };
-
-  const target = useMemo(() => generateTarget(), [lastDigit]);
-  console.log(target);
+  const [target, setTarget] = useState(generateTarget(lastDigit));
+  const [ended, setEnded] = useState(false);
 
   const start = () => {
     setStarted(true);
@@ -72,82 +79,128 @@ export default function Game({ lastDigit, onRestart }) {
     setInput('');
   };
 
+  const newGameHandler = () => {
+    setTarget(generateTarget(lastDigit));
+    setLastGuess('');
+    setInput('');
+    setGuessCount(0);
+    setHintUsed(false);
+    setCountDown(60);
+  };
+
+  const endGameHandler = () => {
+    setEnded(true);
+    setLastGuess('');
+  };
+
+  const GamePlayCard = () => {
+    return (
+      <View style={styles.card}>
+        <Text style={styles.text}>Guess a number between 1 & 100</Text>
+        <Text style={styles.text}>that is a multiply of {lastDigit}</Text>
+        <Text style={styles.text}>in 60 seconds and 4 attempts</Text>
+        {!started ? (
+          <View style={styles.startButton}>
+            <Button title="START" color="white" onPress={start} />
+          </View>
+        ) : (
+          <>
+            <TextInput
+              style={styles.input}
+              value={input}
+              onChangeText={setInput}
+            />
+            <Text style={styles.text}>Attempts left: {4 - guessCount}</Text>
+            <Text style={styles.text}>Timer: {countDown}s</Text>
+            <View style={styles.startButton}>
+              <Button
+                title="Use a hint"
+                color="white"
+                onPress={showHint}
+                disabled={hintUsed}
+              />
+            </View>
+            <View style={styles.startButton}>
+              <Button
+                title="Submit a guess"
+                color="white"
+                onPress={validateSubmission}
+              />
+            </View>
+          </>
+        )}
+      </View>
+    );
+  };
+
+  const GameOverCard = () => {
+    return (
+      <View style={styles.card}>
+        <Text style={styles.text}>The game is over!</Text>
+        <Image src="" alt="" />
+        <Text style={styles.text}>
+          You are {guessCount >= 4 && 'out of attempts'}{' '}
+          {countDown <= 0 && 'out of time'}
+        </Text>
+        <View style={styles.startButton}>
+          <Button title="NEW GAME" color="white" onPress={newGameHandler} />
+        </View>
+      </View>
+    );
+  };
+
+  const GuessCorrectCard = () => {
+    return (
+      <>
+        <Text style={styles.text}>You guessed correct!</Text>
+        <Text style={styles.text}>Attempts used: {guessCount}</Text>
+        <Image
+          style={styles.image}
+          src={`https://picsum.photos/id/${target}/100/100`}
+          alt="winning image"
+        />
+        <View style={styles.startButton}>
+          <Button title="NEW GAME" color="white" onPress={newGameHandler} />
+        </View>
+      </>
+    );
+  };
+
+  const GuessIncorrectCard = () => {
+    return (
+      <>
+        <Text style={styles.text}>You did not guess correct!</Text>
+        <Text style={styles.text}>
+          You should guess {parseInt(lastGuess) > target ? 'lower' : 'higher'}.
+        </Text>
+        <View style={styles.startButton}>
+          <Button title="TRY AGAIN" color="white" onPress={retryHandler} />
+        </View>
+        <View style={styles.startButton}>
+          <Button title="END GAME" color="white" onPress={endGameHandler} />
+        </View>
+      </>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <View style={styles.restartButton}>
           <Button title="RESTART" color="white" onPress={onRestart} />
         </View>
-        {lastGuess ? (
+        {ended || guessCount >= 4 || countDown <= 0 ? (
+          <GameOverCard />
+        ) : lastGuess ? (
           <View style={styles.card}>
             {parseInt(lastGuess) === target ? (
-              <>
-                <Text style={styles.text}>You guessed correct!</Text>
-                <Text style={styles.text}>Attempts used: {guessCount}</Text>
-                <img
-                  src={`https://picsum.photos/id/${parseInt(lastGuess)}/100/100`}
-                  alt="winning image"
-                />
-                <View style={styles.startButton}>
-                  <Button title="NEW GAME" color="white" />
-                </View>
-              </>
+              <GuessCorrectCard />
             ) : (
-              <>
-                <Text style={styles.text}>You did not guess correct!</Text>
-                <Text style={styles.text}>
-                  You should guess{' '}
-                  {parseInt(lastGuess) > target ? 'lower' : 'higher'}.
-                </Text>
-                <View style={styles.startButton}>
-                  <Button
-                    title="TRY AGAIN"
-                    color="white"
-                    onPress={retryHandler}
-                  />
-                </View>
-                <View style={styles.startButton}>
-                  <Button title="END GAME" color="white" />
-                </View>
-              </>
+              <GuessIncorrectCard />
             )}
           </View>
         ) : (
-          <View style={styles.card}>
-            <Text style={styles.text}>Guess a number between 1 & 100</Text>
-            <Text style={styles.text}>that is a multiply of {lastDigit}</Text>
-            <Text style={styles.text}>in 60 seconds and 4 attempts</Text>
-            {!started ? (
-              <View style={styles.startButton}>
-                <Button title="START" color="white" onPress={start} />
-              </View>
-            ) : (
-              <>
-                <TextInput
-                  style={styles.input}
-                  value={input}
-                  onChangeText={setInput}
-                />
-                <Text style={styles.text}>Attempts left: {4 - guessCount}</Text>
-                <Text style={styles.text}>Timer: {countDown}s</Text>
-                <View style={styles.startButton}>
-                  <Button
-                    title="Use a hint"
-                    color="white"
-                    onPress={showHint}
-                    disabled={hintUsed}
-                  />
-                </View>
-                <View style={styles.startButton}>
-                  <Button
-                    title="Submit a guess"
-                    color="white"
-                    onPress={validateSubmission}
-                  />
-                </View>
-              </>
-            )}
-          </View>
+          <GamePlayCard />
         )}
       </View>
     </View>
@@ -189,5 +242,9 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     borderBottomWidth: 2,
     fontSize: 16,
+  },
+  image: {
+    width: 100,
+    height: 100,
   },
 });
