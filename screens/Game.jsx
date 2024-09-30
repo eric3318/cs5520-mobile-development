@@ -7,7 +7,7 @@ import {
   TextInput,
   Image,
 } from 'react-native';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 
 const generateTarget = (num) => {
   const targets = [];
@@ -86,6 +86,8 @@ export default function Game({ lastDigit, onRestart }) {
     setGuessCount(0);
     setHintUsed(false);
     setCountDown(60);
+    setEnded(false);
+    setStarted(false);
   };
 
   const endGameHandler = () => {
@@ -137,10 +139,18 @@ export default function Game({ lastDigit, onRestart }) {
     return (
       <View style={styles.card}>
         <Text style={styles.text}>The game is over!</Text>
-        <Image src="" alt="" />
+        <Image
+          source={require('../assets/emoji.png')}
+          alt="game over image"
+          style={styles.image}
+        />
         <Text style={styles.text}>
-          You are {guessCount >= 4 && 'out of attempts'}{' '}
-          {countDown <= 0 && 'out of time'}
+          {!ended && (
+            <>
+              {guessCount >= 4 && 'You are out of attempts'}
+              {countDown <= 0 && 'You are out of time'}
+            </>
+          )}
         </Text>
         <View style={styles.startButton}>
           <Button title="NEW GAME" color="white" onPress={newGameHandler} />
