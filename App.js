@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Start from './screens/Start';
 import { useState } from 'react';
 import Confirm from './screens/Confirm';
@@ -8,10 +8,11 @@ import Game from './screens/Game';
 export default function App() {
   const [isConfirmPageVisible, setIsConfirmPageVisible] = useState(false);
   const [registerInfo, setRegisterInfo] = useState({});
-  const [isGamePageVisible, setIsGamePageVisible] = useState(true);
+  const [isGamePageVisible, setIsGamePageVisible] = useState(false);
 
   const registerSuccessHandler = (info) => {
     setIsConfirmPageVisible(true);
+    console.log(info);
     setRegisterInfo(info);
   };
 
@@ -33,7 +34,9 @@ export default function App() {
       <StatusBar style="auto" />
       {isGamePageVisible ? (
         <Game
-          lastDigit={/*registerInfo.number.charAt(-1)*/ 9}
+          lastDigit={parseInt(
+            registerInfo.number.charAt(registerInfo.length - 1)
+          )}
           onRestart={restartHandler}
         />
       ) : (
@@ -54,6 +57,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ade8f4',
+    justifyContent: 'center',
   },
 });

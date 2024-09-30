@@ -1,4 +1,6 @@
-import { Button, Modal, StyleSheet, View, Text } from 'react-native';
+import { Button, Modal, StyleSheet, Text, View } from 'react-native';
+import Card from '../components/Card';
+import ActionButton from '../components/ActionButton';
 
 export default function Confirm({
   isVisible,
@@ -7,20 +9,22 @@ export default function Confirm({
   onConfirm,
 }) {
   return (
-    <Modal visible={isVisible}>
+    <Modal visible={isVisible} transparent>
       <View style={styles.outerContainer}>
-        <View style={styles.container}>
+        <Card>
           <Text style={styles.text}>Hello {registerInfo.name}</Text>
           <Text style={styles.text}>Here is the information you entered:</Text>
           <Text style={styles.text}>{registerInfo.email}</Text>
           <Text style={styles.text}>{registerInfo.number}</Text>
           <View style={styles.buttonContainer}>
-            <View>
-              <Button title="Go back" color="red" onPress={onBack} />
-            </View>
+            <ActionButton
+              title="Go back"
+              color="red"
+              onPress={onBack}
+            ></ActionButton>
             <Button title="Continue" onPress={onConfirm} />
           </View>
-        </View>
+        </Card>
       </View>
     </Modal>
   );
@@ -31,12 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  container: {
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    rowGap: 6,
+    backgroundColor: 'rgba(128, 128, 128, 0.5)',
   },
   buttonContainer: {
     flexDirection: 'row',

@@ -1,13 +1,14 @@
 import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Checkbox } from 'expo-checkbox';
+import Card from '../components/Card';
 
 export default function Start({ onRegisterSuccess }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [number, setNumber] = useState('');
   const [checked, setChecked] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState({ name: '', email: '', number: '' });
   const [focused, setFocused] = useState(null);
 
   const handleBlur = () => {
@@ -18,12 +19,19 @@ export default function Start({ onRegisterSuccess }) {
     setName('');
     setEmail('');
     setNumber('');
-    setErrorMsg('');
+    setErrorMsg({ name: '', email: '', number: '' });
     setChecked(false);
   };
 
   const handleRegister = () => {
-    if (errorMsg || !name || !email || !number) {
+    if (
+      errorMsg.name ||
+      errorMsg.email ||
+      errorMsg.number ||
+      !name ||
+      !email ||
+      !number
+    ) {
       Alert.alert('Register failed...', 'Information provided is invalid', [
         {
           text: 'Ok',
@@ -40,19 +48,28 @@ export default function Start({ onRegisterSuccess }) {
   };
 
   const validate = (changedText) => {
-    if (!changedText) {
-      setErrorMsg('');
-      return;
-    }
     switch (focused) {
       case 'name':
         if (changedText.length <= 1 || !isNaN(parseFloat(changedText))) {
-          setErrorMsg('Please enter a valid name');
+          setErrorMsg((prev) => ({
+            ...prev,
+            name: 'Please enter a valid name',
+          }));
         } else {
-          setErrorMsg('');
+          setErrorMsg((prev) => ({ ...prev, name: '' }));
         }
         break;
       case 'email':
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (!reg.test(changedText)) {
+          setErrorMsg((prev) => ({
+            ...prev,
+            email: 'Please enter a valid email',
+          }));
+          return false;
+        } else {
+          setErrorMsg((prev) => ({ ...prev, email: '' }));
+        }
         break;
       case 'number':
         if (
@@ -60,16 +77,19 @@ export default function Start({ onRegisterSuccess }) {
           isNaN(parseFloat(changedText)) ||
           ['0', '1'].includes(changedText.charAt(9))
         ) {
-          setErrorMsg('Please enter a valid phone number');
+          setErrorMsg((prev) => ({
+            ...prev,
+            number: 'Please enter a valid number',
+          }));
         } else {
-          setErrorMsg('');
+          setErrorMsg((prev) => ({ ...prev, number: '' }));
         }
         break;
     }
   };
 
   return (
-    <View style={styles.container}>
+    <Card>
       <Text>Name</Text>
       <TextInput
         style={styles.textInput}
@@ -81,7 +101,7 @@ export default function Start({ onRegisterSuccess }) {
           validate(changedText);
         }}
       />
-      {focused === 'name' && errorMsg && <Text>{errorMsg}</Text>}
+      {focused === 'name' && errorMsg.name && <Text>{errorMsg.name}</Text>}
       <Text>Email Address</Text>
       <TextInput
         style={styles.textInput}
@@ -93,7 +113,7 @@ export default function Start({ onRegisterSuccess }) {
           validate(changedText);
         }}
       />
-      {focused === 'email' && errorMsg && <Text>{errorMsg}</Text>}
+      {focused === 'email' && errorMsg.email && <Text>{errorMsg.email}</Text>}
       <Text>Phone Number</Text>
       <TextInput
         style={styles.textInput}
@@ -105,7 +125,9 @@ export default function Start({ onRegisterSuccess }) {
           validate(changedText);
         }}
       />
-      {focused === 'number' && errorMsg && <Text>{errorMsg}</Text>}
+      {focused === 'number' && errorMsg.number && (
+        <Text>{errorMsg.number}</Text>
+      )}
       <View style={styles.checkboxContainer}>
         <Checkbox value={checked} onValueChange={setChecked} />
         <Text>I am not a robot</Text>
@@ -114,16 +136,11 @@ export default function Start({ onRegisterSuccess }) {
         <Button title="Reset" color="red" onPress={handleReset} />
         <Button title="Register" disabled={!checked} onPress={handleRegister} />
       </View>
-    </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-    rowGap: 10,
-  },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -138,5 +155,4 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingVertical: 10,
   },
-  resetButton: {},
 });
