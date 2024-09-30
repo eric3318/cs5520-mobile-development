@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Button, Alert, TextInput } from 'react-native';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 export default function Game({ lastDigit, onRestart }) {
   const [started, setStarted] = useState(false);
@@ -8,7 +8,22 @@ export default function Game({ lastDigit, onRestart }) {
   const [lastGuess, setLastGuess] = useState('');
   const [hintUsed, setHintUsed] = useState(false);
   const [input, setInput] = useState('');
-  const target = 99;
+
+  const generateTarget = () => {
+    const targets = [];
+    let base = parseInt(lastDigit);
+    let i = 1;
+    let curr = base;
+    while (curr <= 100) {
+      targets.push(curr);
+      i++;
+      curr = base * i;
+    }
+    return targets[Math.floor(Math.random() * targets.length)];
+  };
+
+  const target = useMemo(() => generateTarget(), [lastDigit]);
+  console.log(target);
 
   const start = () => {
     setStarted(true);
@@ -52,6 +67,11 @@ export default function Game({ lastDigit, onRestart }) {
     setGuessCount((prev) => prev + 1);
   };
 
+  const retryHandler = () => {
+    setLastGuess('');
+    setInput('');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
@@ -80,7 +100,11 @@ export default function Game({ lastDigit, onRestart }) {
                   {parseInt(lastGuess) > target ? 'lower' : 'higher'}.
                 </Text>
                 <View style={styles.startButton}>
-                  <Button title="TRY AGAIN" color="white" />
+                  <Button
+                    title="TRY AGAIN"
+                    color="white"
+                    onPress={retryHandler}
+                  />
                 </View>
                 <View style={styles.startButton}>
                   <Button title="END GAME" color="white" />
