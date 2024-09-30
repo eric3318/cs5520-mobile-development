@@ -7,6 +7,7 @@ export default function Game({ lastDigit, onRestart }) {
   const [guessCount, setGuessCount] = useState(0);
   const [lastGuess, setLastGuess] = useState('');
   const [hintUsed, setHintUsed] = useState(false);
+  const [input, setInput] = useState('');
   const target = 99;
 
   const start = () => {
@@ -29,6 +30,28 @@ export default function Game({ lastDigit, onRestart }) {
     ]);
   };
 
+  const alertInvalidEntry = () => {
+    Alert.alert('Invalid entry', 'The entered value is invalid', [
+      {
+        text: 'Modify',
+      },
+    ]);
+  };
+
+  const validateSubmission = () => {
+    if (
+      !input ||
+      isNaN(input) ||
+      parseInt(input) < 1 ||
+      parseInt(input) > 100
+    ) {
+      alertInvalidEntry();
+      return;
+    }
+    setLastGuess(input);
+    setGuessCount((prev) => prev + 1);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
@@ -45,7 +68,11 @@ export default function Game({ lastDigit, onRestart }) {
             </View>
           ) : (
             <>
-              <TextInput style={styles.input} />
+              <TextInput
+                style={styles.input}
+                value={input}
+                onChangeText={setInput}
+              />
               <Text style={styles.text}>Attempts left: {4 - guessCount}</Text>
               <Text style={styles.text}>Timer: {countDown}s</Text>
               <View style={styles.startButton}>
@@ -57,7 +84,11 @@ export default function Game({ lastDigit, onRestart }) {
                 />
               </View>
               <View style={styles.startButton}>
-                <Button title="Submit a guess" color="white" />
+                <Button
+                  title="Submit a guess"
+                  color="white"
+                  onPress={validateSubmission}
+                />
               </View>
             </>
           )}
@@ -96,6 +127,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   input: {
+    paddingTop: 12,
+    paddingHorizontal: 20,
+    maxWidth: '100%',
     borderBottomWidth: 2,
+    fontSize: 16,
   },
 });
