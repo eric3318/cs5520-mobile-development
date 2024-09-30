@@ -108,7 +108,7 @@ export default function Start({ onRegisterSuccess }) {
       {focused === 'number' && errorMsg && <Text>{errorMsg}</Text>}
       <View style={styles.checkboxContainer}>
         <Checkbox value={checked} onValueChange={setChecked} />
-        <Text>Custom colored checkbox</Text>
+        <Text>I am not a robot</Text>
       </View>
       <View style={styles.buttonContainer}>
         <Button title="Reset" color="red" onPress={handleReset} />

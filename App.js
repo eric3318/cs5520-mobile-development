@@ -8,7 +8,7 @@ import Game from './screens/Game';
 export default function App() {
   const [isConfirmPageVisible, setIsConfirmPageVisible] = useState(false);
   const [registerInfo, setRegisterInfo] = useState({});
-  const [isGamePageVisible, setIsGamePageVisible] = useState(false);
+  const [isGamePageVisible, setIsGamePageVisible] = useState(true);
 
   const registerSuccessHandler = (info) => {
     setIsConfirmPageVisible(true);
@@ -24,11 +24,18 @@ export default function App() {
     setIsGamePageVisible(true);
   };
 
+  const restartHandler = () => {
+    setIsGamePageVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       {isGamePageVisible ? (
-        <Game lastDigit={registerInfo.number.charAt(-1)} />
+        <Game
+          lastDigit={/*registerInfo.number.charAt(-1)*/ 9}
+          onRestart={restartHandler}
+        />
       ) : (
         <>
           <Start onRegisterSuccess={registerSuccessHandler} />
