@@ -1,11 +1,32 @@
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Alert, TextInput } from 'react-native';
 import { useState } from 'react';
 
 export default function Game({ lastDigit, onRestart }) {
   const [started, setStarted] = useState(false);
+  const [countDown, setCountDown] = useState(60);
+  const [guessCount, setGuessCount] = useState(0);
+  const [lastGuess, setLastGuess] = useState('');
+  const [hintUsed, setHintUsed] = useState(false);
+  const target = 99;
 
   const start = () => {
     setStarted(true);
+  };
+
+  const showHint = () => {
+    if (hintUsed) {
+      return;
+    }
+    setHintUsed(true);
+    let hint =
+      parseInt(lastGuess, 10) > target
+        ? 'Your guess is too big!'
+        : 'Your guess is too small!';
+    Alert.alert('Hint', hint, [
+      {
+        text: 'Got it',
+      },
+    ]);
   };
 
   return (
@@ -18,10 +39,27 @@ export default function Game({ lastDigit, onRestart }) {
           <Text style={styles.text}>Guess a number between 1 & 100</Text>
           <Text style={styles.text}>that is a multiply of {lastDigit}</Text>
           <Text style={styles.text}>in 60 seconds and 4 attempts</Text>
-          {!started && (
+          {!started ? (
             <View style={styles.startButton}>
               <Button title="START" color="white" onPress={start} />
             </View>
+          ) : (
+            <>
+              <TextInput style={styles.input} />
+              <Text style={styles.text}>Attempts left: {4 - guessCount}</Text>
+              <Text style={styles.text}>Timer: {countDown}s</Text>
+              <View style={styles.startButton}>
+                <Button
+                  title="Use a hint"
+                  color="white"
+                  onPress={showHint}
+                  disabled={hintUsed}
+                />
+              </View>
+              <View style={styles.startButton}>
+                <Button title="Submit a guess" color="white" />
+              </View>
+            </>
           )}
         </View>
       </View>
@@ -56,5 +94,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
+  },
+  input: {
+    borderBottomWidth: 2,
   },
 });
