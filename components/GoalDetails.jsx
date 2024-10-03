@@ -1,11 +1,19 @@
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 
-export default function GoalDetails({ route }) {
-  const { id, text } = route.params;
+export default function GoalDetails({ navigation, route }) {
   return (
     <View>
-      <Text>{id} </Text>
-      <Text>{text}</Text>
+      {route.params ? (
+        <>
+          <Text>{route.params.id} </Text>
+          <Button
+            title="More details"
+            onPress={() => navigation.navigate("Details")}
+          />
+        </>
+      ) : (
+        <Text>More details</Text>
+      )}
     </View>
   );
 }
