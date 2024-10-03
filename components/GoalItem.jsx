@@ -5,7 +5,7 @@ export default function GoalItem({ item, onDelete, onClick }) {
     <View style={styles.textContainer}>
       <Text style={styles.text}>{item.text}</Text>
       <Button title="X" onPress={() => onDelete(item.id)} />
-      <Button title="i" onPress={onClick} />
+      <Button title="i" onPress={() => onClick(item)} />
     </View>
   );
 }
