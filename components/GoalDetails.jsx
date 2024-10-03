@@ -6,14 +6,11 @@ export default function GoalDetails({ navigation, route }) {
       {route.params ? (
         <>
           <Text>{route.params.id} </Text>
-          <Button
-            title="More details"
-            onPress={() => navigation.navigate("Details")}
-          />
         </>
       ) : (
         <Text>More details</Text>
       )}
+      <Button title="More details" onPress={() => navigation.push("Details")} />
     </View>
   );
 }
