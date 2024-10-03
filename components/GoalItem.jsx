@@ -1,5 +1,4 @@
-import { Button, Text, View } from "react-native";
-import { StyleSheet } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 export default function GoalItem({ item, onDelete }) {
   return (
@@ -16,7 +15,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "gray",
     borderRadius: 5,
-    marginTop: 20,
+    marginTop: 10,
   },
   text: {
     color: "purple",

@@ -1,9 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import {
+  Alert,
   Button,
   FlatList,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -36,7 +36,7 @@ export default function App() {
     setText(changedText);
   };
 
-  const handleButtonClick = () => {
+  const confirmButtonHandler = () => {
     setIsVisible(true);
   };
 
@@ -44,21 +44,51 @@ export default function App() {
     setIsVisible(false);
   };
 
+  const showAlert = () => {
+    Alert.alert("Deleting goals..,", "Do you wish to continue?", [
+      {
+        text: "yes",
+        onPress: clearGoals,
+      },
+      {
+        text: "no",
+      },
+    ]);
+  };
+
+  const clearGoals = () => {
+    setGoals([]);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.topView}>
         <Header appName={appName} />
-        <Button title="Add a goal" onPress={handleButtonClick}></Button>
+        <Button title="Add a goal" onPress={confirmButtonHandler}></Button>
       </View>
       <Input
         shouldFocus={true}
-        inputDataHandler={handleInputData}
-        onModalClose={cancelButtonHandler}
+        onConfirm={handleInputData}
+        onCancel={cancelButtonHandler}
         isVisible={isVisible}
       />
       <View style={styles.bottomView}>
         <FlatList
+          ListEmptyComponent={
+            <Text style={styles.emptyListText}>No goals to show</Text>
+          }
+          ListHeaderComponent={
+            goals.length > 0 && (
+              <Text style={styles.listHeaderText}>My goals</Text>
+            )
+          }
+          ListFooterComponent={
+            goals.length > 0 && (
+              <Button title="Delete All" onPress={showAlert} />
+            )
+          }
+          ItemSeparatorComponent={<View style={styles.separator} />}
           data={goals}
           contentContainerStyle={styles.scrollView}
           renderItem={({ item }) => (
@@ -83,5 +113,20 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     alignItems: "center",
+  },
+  emptyListText: {
+    fontSize: 20,
+    fontWeight: 500,
+  },
+  listHeaderText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "black",
+  },
+  separator: {
+    height: 1,
+    borderWidth: 2,
+    marginTop: 10,
+    borderColor: "gray",
   },
 });
