@@ -13,7 +13,7 @@ import Input from "./Input";
 import { useState } from "react";
 import GoalItem from "./GoalItem";
 
-export default function Home() {
+export default function Home({ navigation }) {
   const appName = "First Mobile App";
   const [text, setText] = useState("");
   const [isVisible, setIsVisible] = useState(false);
@@ -60,6 +60,10 @@ export default function Home() {
     setGoals([]);
   };
 
+  const navigateToDetailsHandler = () => {
+    navigation.navigate("Details");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -92,7 +96,11 @@ export default function Home() {
           data={goals}
           contentContainerStyle={styles.scrollView}
           renderItem={({ item }) => (
-            <GoalItem item={item} onDelete={handleDelete} />
+            <GoalItem
+              item={item}
+              onDelete={handleDelete}
+              onClick={navigateToDetailsHandler}
+            />
           )}
         />
       </View>
