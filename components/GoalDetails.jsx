@@ -5,7 +5,7 @@ export default function GoalDetails({ navigation, route }) {
     <View>
       {route.params ? (
         <>
-          <Text>{route.params.id} </Text>
+          <Text>{route.params.goal.id} </Text>
         </>
       ) : (
         <Text>More details</Text>

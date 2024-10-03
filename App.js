@@ -12,12 +12,22 @@ export default function App() {
           name="Home"
           component={Home}
           options={{
-            title: "Test",
+            title: "Home",
             headerStyle: { backgroundColor: "purple" },
             headerTintColor: "white",
           }}
         />
-        <Stack.Screen name="Details" component={GoalDetails} />
+        <Stack.Screen
+          name="Details"
+          component={GoalDetails}
+          options={({ route }) => {
+            return {
+              title: route.params ? route.params.goal.text : "Details",
+              headerStyle: { backgroundColor: "purple" },
+              headerTintColor: "white",
+            };
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

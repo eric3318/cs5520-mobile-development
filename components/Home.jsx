@@ -61,7 +61,7 @@ export default function Home({ navigation }) {
   };
 
   const navigateToDetailsHandler = (item) => {
-    navigation.navigate("Details", item);
+    navigation.navigate("Details", { goal: item });
   };
 
   return (
