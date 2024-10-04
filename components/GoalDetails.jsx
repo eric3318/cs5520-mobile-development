@@ -1,25 +1,40 @@
-import { View, Text, Button } from "react-native";
-import { useEffect } from "react";
+import { View, Text, Button, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
 
 export default function GoalDetails({ navigation, route }) {
+  const [isWarning, setIsWarning] = useState(false);
+
+  const onWarningButtonClick = () => {
+    setIsWarning((prev) => !prev);
+  };
+
   useEffect(() => {
-    // Use `setOptions` to update the button that we previously specified
-    // Now the button includes an `onPress` handler to update the count
     navigation.setOptions({
-      headerRight: () => <Button title="Warning" />,
+      title: isWarning ? "Warning!" : "Details",
+      headerRight: () => (
+        <Button title="Warning" onPress={onWarningButtonClick} />
+      ),
     });
-  }, [navigation]);
+  }, [isWarning, navigation]);
 
   return (
     <View>
       {route.params ? (
         <>
-          <Text>{route.params.goal.id} </Text>
+          <Text style={isWarning && styles.warningText}>
+            {route.params.goal.text}
+          </Text>
         </>
       ) : (
-        <Text>More details</Text>
+        <Text style={isWarning && styles.warningText}>More details</Text>
       )}
       <Button title="More details" onPress={() => navigation.push("Details")} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  warningText: {
+    color: "red",
+  },
+});
