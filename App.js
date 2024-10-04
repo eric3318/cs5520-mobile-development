@@ -26,7 +26,6 @@ export default function App() {
           component={GoalDetails}
           options={({ route }) => ({
             title: route.params ? route.params.goal.text : "Details",
-            headerRight: () => <Button title="Warning" />,
           })}
         />
       </Stack.Navigator>
