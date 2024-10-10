@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 export default function GoalItem({ item, onDelete }) {
@@ -10,9 +10,10 @@ export default function GoalItem({ item, onDelete }) {
 
   return (
     <View style={styles.textContainer}>
-      <Text style={styles.text}>{item.text}</Text>
-      <Button title="X" onPress={() => onDelete(item.id)} />
-      <Button title="i" onPress={navigateToDetails} />
+      <Pressable onPress={navigateToDetails} style={styles.pressable}>
+        <Text style={styles.text}>{item.text}</Text>
+        <Button title="X" onPress={() => onDelete(item.id)} />
+      </Pressable>
     </View>
   );
 }
@@ -24,6 +25,10 @@ const styles = StyleSheet.create({
     backgroundColor: "gray",
     borderRadius: 5,
     marginTop: 10,
+  },
+  pressable: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   text: {
     color: "purple",
