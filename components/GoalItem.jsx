@@ -18,7 +18,9 @@ export default function GoalItem({ item, onDelete }) {
         android_ripple={{ color: "white", radius: 20 }}
       >
         <Text style={styles.text}>{item.text}</Text>
-        <Button title="X" onPress={() => onDelete(item.id)} />
+        <PressableButton pressedFunction={() => onDelete(item.id)}>
+          <Text>X</Text>
+        </PressableButton>
       </PressableButton>
     </View>
   );
