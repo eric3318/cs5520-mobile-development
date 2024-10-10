@@ -60,10 +60,6 @@ export default function Home({ navigation }) {
     setGoals([]);
   };
 
-  const navigateToDetailsHandler = (item) => {
-    navigation.navigate("Details", { goal: item });
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -96,11 +92,7 @@ export default function Home({ navigation }) {
           data={goals}
           contentContainerStyle={styles.scrollView}
           renderItem={({ item }) => (
-            <GoalItem
-              item={item}
-              onDelete={handleDelete}
-              onClick={navigateToDetailsHandler}
-            />
+            <GoalItem item={item} onDelete={handleDelete} />
           )}
         />
       </View>
