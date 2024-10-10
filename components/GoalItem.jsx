@@ -12,7 +12,9 @@ export default function GoalItem({ item, onDelete }) {
     <View style={styles.textContainer}>
       <Pressable
         onPress={navigateToDetails}
-        style={styles.pressable}
+        style={({ pressed }) => {
+          return [styles.pressable, pressed && styles.pressedPressable];
+        }}
         android_ripple={{ color: "white", radius: 20 }}
       >
         <Text style={styles.text}>{item.text}</Text>
@@ -33,6 +35,9 @@ const styles = StyleSheet.create({
   pressable: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  pressedPressable: {
+    backgroundColor: "green",
   },
   text: {
     color: "purple",
