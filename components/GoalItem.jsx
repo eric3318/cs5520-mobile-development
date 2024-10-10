@@ -20,7 +20,7 @@ export default function GoalItem({ item, onDelete }) {
       >
         <Text style={styles.text}>{item.text}</Text>
         <PressableButton pressedFunction={() => onDelete(item.id)}>
-          <AntDesign name="delete" size={22} color="black" />
+          <AntDesign name="delete" size={22} />
         </PressableButton>
       </PressableButton>
     </View>

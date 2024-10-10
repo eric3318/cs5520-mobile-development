@@ -1,5 +1,7 @@
 import { View, Text, Button, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
+import PressableButton from "./PressableButton";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function GoalDetails({ navigation, route }) {
   const [isWarning, setIsWarning] = useState(false);
@@ -12,7 +14,13 @@ export default function GoalDetails({ navigation, route }) {
     navigation.setOptions({
       title: isWarning ? "Warning!" : "Details",
       headerRight: () => (
-        <Button title="Warning" onPress={onWarningButtonClick} />
+        // <Button title="Warning" onPress={onWarningButtonClick} />
+        <PressableButton
+          pressedFunction={onWarningButtonClick}
+          componentStyle={styles.warningIcon}
+        >
+          <AntDesign name="warning" size={24} />
+        </PressableButton>
       ),
     });
   }, [isWarning, navigation]);
@@ -36,5 +44,8 @@ export default function GoalDetails({ navigation, route }) {
 const styles = StyleSheet.create({
   warningText: {
     color: "red",
+  },
+  warningIcon: {
+    backgroundColor: "transparent",
   },
 });

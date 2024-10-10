@@ -21,6 +21,8 @@ export default function PressableButton(props) {
 const styles = StyleSheet.create({
   defaultStyle: {
     backgroundColor: "beige",
+    paddingHorizontal: 6,
+    paddingVertical: 4,
   },
   defaultPressedStyle: {
     backgroundColor: "#a4a",
