@@ -1,6 +1,7 @@
 import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import PressableButton from "./PressableButton";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function GoalItem({ item, onDelete }) {
   const navigation = useNavigation();
@@ -19,7 +20,7 @@ export default function GoalItem({ item, onDelete }) {
       >
         <Text style={styles.text}>{item.text}</Text>
         <PressableButton pressedFunction={() => onDelete(item.id)}>
-          <Text>X</Text>
+          <AntDesign name="delete" size={22} color="black" />
         </PressableButton>
       </PressableButton>
     </View>
