@@ -88,11 +88,23 @@ export default function Home({ navigation }) {
               <Button title="Delete All" onPress={showAlert} />
             )
           }
-          ItemSeparatorComponent={<View style={styles.separator} />}
+          ItemSeparatorComponent={({ highlighted }) => (
+            <View
+              style={[
+                styles.separator,
+                highlighted && styles.highlightedSeparator,
+              ]}
+            />
+          )}
           data={goals}
           contentContainerStyle={styles.scrollView}
-          renderItem={({ item }) => (
-            <GoalItem item={item} onDelete={handleDelete} />
+          renderItem={({ item, separators }) => (
+            <GoalItem
+              item={item}
+              onDelete={handleDelete}
+              onSeparatorHighlight={separators.highlight}
+              onSeparatorUnHighlight={separators.unhighlight}
+            />
           )}
         />
       </View>
@@ -128,5 +140,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginTop: 10,
     borderColor: "gray",
+  },
+  highlightedSeparator: {
+    borderColor: "purple",
   },
 });
