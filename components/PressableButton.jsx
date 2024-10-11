@@ -3,6 +3,8 @@ import { Pressable, StyleSheet, View } from "react-native";
 export default function PressableButton({
   pressedFunction,
   longPressedFunction,
+  onPressIn,
+  onPressOut,
   componentStyle,
   pressedStyle,
   children,
@@ -12,6 +14,8 @@ export default function PressableButton({
     <Pressable
       onPress={pressedFunction}
       onLongPress={longPressedFunction}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
       style={({ pressed }) => {
         return [
           styles.defaultStyle,
