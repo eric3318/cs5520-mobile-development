@@ -3,7 +3,12 @@ import { useNavigation } from "@react-navigation/native";
 import PressableButton from "./PressableButton";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-export default function GoalItem({ item, onDelete }) {
+export default function GoalItem({
+  item,
+  onDelete,
+  onSeparatorHighlight,
+  onSeparatorUnHighlight,
+}) {
   const navigation = useNavigation();
 
   const navigateToDetails = () => {
@@ -29,6 +34,8 @@ export default function GoalItem({ item, onDelete }) {
       <PressableButton
         pressedFunction={navigateToDetails}
         longPressedFunction={onLongPress}
+        onPressIn={onSeparatorHighlight}
+        onPressOut={onSeparatorUnHighlight}
         componentStyle={styles.pressable}
         pressedStyle={styles.pressedPressable}
         android_ripple={{ color: "white", radius: 20 }}
