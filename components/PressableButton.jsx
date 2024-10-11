@@ -1,19 +1,27 @@
 import { Pressable, StyleSheet, View } from "react-native";
 
-export default function PressableButton(props) {
+export default function PressableButton({
+  pressedFunction,
+  longPressedFunction,
+  componentStyle,
+  pressedStyle,
+  children,
+  ...props
+}) {
   return (
     <Pressable
-      onPress={props.pressedFunction}
+      onPress={pressedFunction}
+      onLongPress={longPressedFunction}
       style={({ pressed }) => {
         return [
           styles.defaultStyle,
-          props.componentStyle,
+          componentStyle,
           pressed & styles.defaultPressedStyle,
-          pressed && props.pressedStyle,
+          pressed && pressedStyle,
         ];
       }}
     >
-      {props.children}
+      {children}
     </Pressable>
   );
 }
