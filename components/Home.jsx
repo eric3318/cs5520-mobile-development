@@ -26,7 +26,7 @@ export default function Home({ navigation }) {
     onSnapshot(collection(database, "goals"), (querySnapshot) => {
       let newArray = [];
       querySnapshot.forEach((docSnapshot) => {
-        newArray.push({ ...docSnapshot.data() });
+        newArray.push({ ...docSnapshot.data(), id: docSnapshot.id });
       });
       setGoals(newArray);
     });
