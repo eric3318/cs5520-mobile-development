@@ -2,6 +2,7 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import PressableButton from "./PressableButton";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import GoalUsers from "./GoalUsers";
 
 export default function GoalDetails({ navigation, route }) {
   const [isWarning, setIsWarning] = useState(false);
@@ -37,6 +38,7 @@ export default function GoalDetails({ navigation, route }) {
         <Text style={isWarning && styles.warningText}>More details</Text>
       )}
       <Button title="More details" onPress={() => navigation.push("Details")} />
+      <GoalUsers />
     </View>
   );
 }
