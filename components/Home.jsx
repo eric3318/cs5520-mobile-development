@@ -12,13 +12,16 @@ import Header from ".//Header";
 import Input from "./Input";
 import { useState, useEffect } from "react";
 import GoalItem from "./GoalItem";
-import { deleteFromDB, writeToDB } from "../firebase/firestoreHelper";
+import {
+  deleteAllFromDB,
+  deleteFromDB,
+  writeToDB,
+} from "../firebase/firestoreHelper";
 import { collection, onSnapshot } from "firebase/firestore";
 import { database } from "../firebase/firebaseSetup";
 
 export default function Home({ navigation }) {
   const appName = "First Mobile App";
-  /*  const [text, setText] = useState("");*/
   const [isVisible, setIsVisible] = useState(false);
   const [goals, setGoals] = useState([]);
 
@@ -33,23 +36,13 @@ export default function Home({ navigation }) {
   }, []);
 
   const handleInputData = async (changedText) => {
-    /*    updateText(changedText);*/
-    /*    let goal = { text: changedText, id: Math.floor(Math.random() * 100) };
-    setGoals((prev) => {
-      return [goal, ...prev];
-    });*/
     await writeToDB({ text: changedText }, "goals");
     setIsVisible(false);
   };
 
   const handleDelete = async (id) => {
-    /*    setGoals((prev) => prev.filter((item) => item.id !== id));*/
     await deleteFromDB(id, "goals");
   };
-
-  /*  const updateText = (changedText) => {
-    setText(changedText);
-  };*/
 
   const confirmButtonHandler = () => {
     setIsVisible(true);
@@ -71,8 +64,8 @@ export default function Home({ navigation }) {
     ]);
   };
 
-  const clearGoals = () => {
-    setGoals([]);
+  const clearGoals = async () => {
+    await deleteAllFromDB("goals");
   };
 
   return (
