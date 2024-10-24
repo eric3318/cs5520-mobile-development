@@ -1,8 +1,12 @@
 import { database } from "./firebaseSetup";
 
-import { collection, addDoc } from "firebase/firestore";
-import { doc, deleteDoc } from "firebase/firestore";
-import { getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
 
 export async function writeToDB(data, collectionName) {
   try {

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Header from ".//Header";
 import Input from "./Input";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import GoalItem from "./GoalItem";
 import {
   deleteAllFromDB,
