@@ -13,7 +13,7 @@ export async function writeToDB(data, collectionName) {
 
 export async function deleteFromDB(id, collectionName) {
   try {
-    await deleteDoc(collection(database, collectionName, id));
+    await deleteDoc(doc(database, collectionName, id));
   } catch (err) {
     console.log(err);
   }

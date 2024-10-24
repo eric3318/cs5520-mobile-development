@@ -12,7 +12,7 @@ import Header from ".//Header";
 import Input from "./Input";
 import { useState, useEffect } from "react";
 import GoalItem from "./GoalItem";
-import { writeToDB } from "../firebase/firestoreHelper";
+import { deleteFromDB, writeToDB } from "../firebase/firestoreHelper";
 import { collection, onSnapshot } from "firebase/firestore";
 import { database } from "../firebase/firebaseSetup";
 
@@ -42,8 +42,9 @@ export default function Home({ navigation }) {
     setIsVisible(false);
   };
 
-  const handleDelete = (id) => {
-    setGoals((prev) => prev.filter((item) => item.id !== id));
+  const handleDelete = async (id) => {
+    /*    setGoals((prev) => prev.filter((item) => item.id !== id));*/
+    await deleteFromDB(id, "goals");
   };
 
   /*  const updateText = (changedText) => {
