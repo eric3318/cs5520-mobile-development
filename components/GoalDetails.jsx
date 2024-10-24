@@ -15,7 +15,6 @@ export default function GoalDetails({ navigation, route }) {
     navigation.setOptions({
       title: isWarning ? "Warning!" : "Details",
       headerRight: () => (
-        // <Button title="Warning" onPress={onWarningButtonClick} />
         <PressableButton
           pressedFunction={onWarningButtonClick}
           componentStyle={styles.warningIcon}
@@ -38,7 +37,7 @@ export default function GoalDetails({ navigation, route }) {
         <Text style={isWarning && styles.warningText}>More details</Text>
       )}
       <Button title="More details" onPress={() => navigation.push("Details")} />
-      <GoalUsers />
+      <GoalUsers goalId={route.params.goal.id} />
     </View>
   );
 }

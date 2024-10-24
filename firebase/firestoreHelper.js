@@ -34,3 +34,16 @@ export async function deleteAllFromDB(collectionName) {
     console.log(err);
   }
 }
+
+export async function readAll(collectionName) {
+  try {
+    const querySnapshot = await getDocs(collection(database, collectionName));
+    let newArray = [];
+    if (!querySnapshot.empty) {
+      querySnapshot.forEach((docSnapshot) => newArray.push(docSnapshot.data()));
+    }
+    return newArray;
+  } catch (err) {
+    console.log(err);
+  }
+}
