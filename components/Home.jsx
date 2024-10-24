@@ -10,22 +10,34 @@ import {
 } from "react-native";
 import Header from ".//Header";
 import Input from "./Input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GoalItem from "./GoalItem";
 import { writeToDB } from "../firebase/firestoreHelper";
+import { collection, onSnapshot } from "firebase/firestore";
+import { database } from "../firebase/firebaseSetup";
 
 export default function Home({ navigation }) {
   const appName = "First Mobile App";
-  const [text, setText] = useState("");
+  /*  const [text, setText] = useState("");*/
   const [isVisible, setIsVisible] = useState(false);
   const [goals, setGoals] = useState([]);
 
+  useEffect(() => {
+    onSnapshot(collection(database, "goals"), (querySnapshot) => {
+      let newArray = [];
+      querySnapshot.forEach((docSnapshot) => {
+        newArray.push({ ...docSnapshot.data() });
+      });
+      setGoals(newArray);
+    });
+  }, []);
+
   const handleInputData = async (changedText) => {
-    updateText(changedText);
-    let goal = { text: changedText, id: Math.floor(Math.random() * 100) };
+    /*    updateText(changedText);*/
+    /*    let goal = { text: changedText, id: Math.floor(Math.random() * 100) };
     setGoals((prev) => {
       return [goal, ...prev];
-    });
+    });*/
     await writeToDB({ text: changedText }, "goals");
     setIsVisible(false);
   };
@@ -34,9 +46,9 @@ export default function Home({ navigation }) {
     setGoals((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const updateText = (changedText) => {
+  /*  const updateText = (changedText) => {
     setText(changedText);
-  };
+  };*/
 
   const confirmButtonHandler = () => {
     setIsVisible(true);
