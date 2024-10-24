@@ -12,6 +12,7 @@ import Header from ".//Header";
 import Input from "./Input";
 import { useState } from "react";
 import GoalItem from "./GoalItem";
+import { writeToDB } from "../firebase/firestoreHelper";
 
 export default function Home({ navigation }) {
   const appName = "First Mobile App";
@@ -19,12 +20,13 @@ export default function Home({ navigation }) {
   const [isVisible, setIsVisible] = useState(false);
   const [goals, setGoals] = useState([]);
 
-  const handleInputData = (changedText) => {
+  const handleInputData = async (changedText) => {
     updateText(changedText);
     let goal = { text: changedText, id: Math.floor(Math.random() * 100) };
     setGoals((prev) => {
       return [goal, ...prev];
     });
+    await writeToDB({ text: changedText }, "goals");
     setIsVisible(false);
   };
 
